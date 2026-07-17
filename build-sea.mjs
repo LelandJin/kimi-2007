@@ -20,6 +20,7 @@ const config = {
     'index.html': path.join(ROOT, 'public', 'index.html'),
     'style.css': path.join(ROOT, 'public', 'style.css'),
     'app.js': path.join(ROOT, 'public', 'app.js'),
+    'kimi.ico': path.join(ROOT, 'kimi.ico'),
   },
 };
 fs.writeFileSync(path.join(ROOT, 'sea-config.json'), JSON.stringify(config, null, 2));

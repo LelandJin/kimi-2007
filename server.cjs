@@ -378,8 +378,30 @@ function readStatic(rel) {
   try { return fs.readFileSync(path.join(PUBLIC_DIR, rel)); } catch { return null; }
 }
 
+// 以应用模式打开界面：优先 Edge/Chrome 的 --app（无地址栏的独立窗口），否则退回默认浏览器
 function openBrowser() {
-  exec(`start "" "http://127.0.0.1:${PORT}"`, () => {});
+  const url = `http://127.0.0.1:${PORT}`;
+  const candidates = [
+    'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe',
+    'C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe',
+    'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
+    'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe',
+  ];
+  const browser = candidates.find(p => fs.existsSync(p));
+  if (browser) exec(`"${browser}" --app=${url}`, () => {});
+  else exec(`start "" "${url}"`, () => {});
+}
+
+// 关闭窗口 6 秒后自动退出（pagehide 信标触发；期间有新的 SSE 连接则说明是刷新，取消退出）
+let shutdownTimer = null;
+function scheduleShutdown() {
+  clearTimeout(shutdownTimer);
+  shutdownTimer = setTimeout(() => {
+    if (running.size > 0) { console.log('有任务运行中，忽略自动退出'); return; }
+    console.log('窗口已关闭，服务退出。');
+    process.exit(0);
+  }, 6000);
+  shutdownTimer.unref();
 }
 
 // 导出 Markdown
@@ -507,9 +529,15 @@ const server = http.createServer(async (req, res) => {
       let set = sseClients.get(chat.id);
       if (!set) { set = new Set(); sseClients.set(chat.id, set); }
       set.add(res);
+      clearTimeout(shutdownTimer); // 有窗口连上，取消自动退出
       const ka = setInterval(() => res.write(': keep-alive\n\n'), 25000);
       req.on('close', () => { clearInterval(ka); set.delete(res); });
       return;
+    }
+
+    if (p === '/api/shutdown' && req.method === 'POST') {
+      scheduleShutdown();
+      return sendJson(res, 200, { ok: true });
     }
 
     if (p.startsWith('/api/')) return sendJson(res, 404, { error: 'not found' });
@@ -517,6 +545,15 @@ const server = http.createServer(async (req, res) => {
     // ----- 静态文件 -----
     const rel = p === '/' ? 'index.html' : decodeURIComponent(p).replace(/^\/+/, '');
     if (rel.includes('..')) { res.writeHead(403); return res.end(); }
+    // 图标：SEA 内嵌或程序根目录
+    if (rel === 'kimi.ico') {
+      let ico = null;
+      if (isSea()) { try { ico = Buffer.from(sea.getAsset('kimi.ico')); } catch { /* 无 */ } }
+      else { try { ico = fs.readFileSync(path.join(ROOT, 'kimi.ico')); } catch { /* 无 */ } }
+      if (!ico) { res.writeHead(404); return res.end('not found'); }
+      res.writeHead(200, { 'Content-Type': 'image/x-icon' });
+      return res.end(ico);
+    }
     const data = readStatic(rel);
     if (!data) { res.writeHead(404); return res.end('not found'); }
     res.writeHead(200, { 'Content-Type': MIME[path.extname(rel).toLowerCase()] || 'application/octet-stream' });

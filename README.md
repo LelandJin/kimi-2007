@@ -18,17 +18,26 @@
 
 前提：已安装 [Kimi Code CLI](https://moonshotai.github.io/kimi-code/)（`kimi` 可执行，且已登录）。
 
-开发模式（需要 Node.js ≥ 20）：
+### 方式一：单文件 exe（Windows，推荐）
+
+从 [Releases](https://github.com/LelandJin/kimi-2007/releases) 下载 `Kimi2007.exe`，双击即用：
+
+- 启动后自动以**应用模式**打开独立窗口（Edge/Chrome `--app`，无地址栏，像普通桌面软件）
+- 重复双击不会重复启动服务，只会重新打开窗口
+- 关闭窗口 6 秒后服务自动退出（刷新页面不受影响）
+- 想完全无控制台窗口：用 `launch-hidden.vbs` 做入口（`wscript.exe launch-hidden.vbs`），桌面快捷方式指向它即可
+
+也可以自己打包：
+
+```bash
+node build-sea.mjs   # 生成 Kimi2007.exe（首次运行会通过 npx 下载 postject）
+```
+
+### 方式二：开发模式（需要 Node.js ≥ 20）
 
 ```bash
 node server.cjs
 # 浏览器打开 http://127.0.0.1:5270
-```
-
-打包单文件 exe（Windows）：
-
-```bash
-node build-sea.mjs   # 生成 Kimi2007.exe（首次运行会通过 npx 下载 postject）
 ```
 
 聊天记录保存在程序旁的 `data.json`。默认端口 5270，可用环境变量 `KIMI2007_PORT` 修改。

@@ -614,6 +614,11 @@
   tick();
   setInterval(tick, 15000);
 
+  // 窗口关闭时通知服务器（6 秒无重连则自动退出；刷新会重连，不受影响）
+  window.addEventListener('pagehide', () => {
+    try { navigator.sendBeacon('/api/shutdown'); } catch { /* 忽略 */ }
+  });
+
   // ---------- 启动：优先打开 hash 指定的聊天，否则自动进入最近聊天 ----------
   updateInputState();
   loadChats().then(() => {
