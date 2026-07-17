@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kimi 2007</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="window">
+
+  <!-- 标题栏 -->
+  <div class="titlebar">
+    <span class="tb-logo penguin"><svg viewBox="0 0 24 24" width="18" height="18"><ellipse cx="6.5" cy="14" rx="2.6" ry="4.5" fill="#1a1a1a" transform="rotate(20 6.5 14)"/><ellipse cx="17.5" cy="14" rx="2.6" ry="4.5" fill="#1a1a1a" transform="rotate(-20 17.5 14)"/><ellipse cx="12" cy="13" rx="8" ry="9" fill="#1a1a1a"/><ellipse cx="12" cy="15" rx="5" ry="6" fill="#fff"/><circle cx="9" cy="9" r="1.9" fill="#fff"/><circle cx="15" cy="9" r="1.9" fill="#fff"/><circle cx="9.3" cy="9.3" r="0.9" fill="#1a1a1a"/><circle cx="15.3" cy="9.3" r="0.9" fill="#1a1a1a"/><path d="M10.5 11.5 L13.5 11.5 L12 13.2 Z" fill="#ff9a1a"/><path d="M4.5 12.8 Q12 16 19.5 12.8 L19.5 14.5 Q12 17.6 4.5 14.5 Z" fill="#e03030"/><ellipse cx="8.5" cy="21.5" rx="2.4" ry="1.3" fill="#ff9a1a"/><ellipse cx="15.5" cy="21.5" rx="2.4" ry="1.3" fill="#ff9a1a"/></svg></span>
+    <span class="tb-title" id="tbTitle">Kimi 2007</span>
+    <div class="tb-btns">
+      <span class="tb-btn" title="最小化">─</span>
+      <span class="tb-btn" title="最大化">▢</span>
+      <span class="tb-btn tb-close" title="关闭">✕</span>
+    </div>
+  </div>
+
+  <!-- 工具栏 -->
+  <div class="toolbar">
+    <button class="tool" id="btnNewChat"><span class="tool-ico">📝</span>新建任务</button>
+    <button class="tool deco"><span class="tool-ico">📅</span>已安排</button>
+    <span class="tool-sep"></span>
+    <button class="tool deco"><span class="tool-ico">🧩</span>插件</button>
+    <button class="tool deco"><span class="tool-ico">🌐</span>站点</button>
+    <button class="tool deco"><span class="tool-ico">🔀</span>拉取请求</button>
+    <button class="tool" id="btnChatList"><span class="tool-ico">💬</span>聊天</button>
+  </div>
+
+  <div class="body">
+
+    <!-- 左栏 -->
+    <aside class="left">
+      <div class="panel">
+        <div class="panel-hd"><span class="hd-ico penguin"><svg viewBox="0 0 24 24" width="15" height="15"><ellipse cx="6.5" cy="14" rx="2.6" ry="4.5" fill="#1a1a1a" transform="rotate(20 6.5 14)"/><ellipse cx="17.5" cy="14" rx="2.6" ry="4.5" fill="#1a1a1a" transform="rotate(-20 17.5 14)"/><ellipse cx="12" cy="13" rx="8" ry="9" fill="#1a1a1a"/><ellipse cx="12" cy="15" rx="5" ry="6" fill="#fff"/><circle cx="9" cy="9" r="1.9" fill="#fff"/><circle cx="15" cy="9" r="1.9" fill="#fff"/><circle cx="9.3" cy="9.3" r="0.9" fill="#1a1a1a"/><circle cx="15.3" cy="9.3" r="0.9" fill="#1a1a1a"/><path d="M10.5 11.5 L13.5 11.5 L12 13.2 Z" fill="#ff9a1a"/><path d="M4.5 12.8 Q12 16 19.5 12.8 L19.5 14.5 Q12 17.6 4.5 14.5 Z" fill="#e03030"/><ellipse cx="8.5" cy="21.5" rx="2.4" ry="1.3" fill="#ff9a1a"/><ellipse cx="15.5" cy="21.5" rx="2.4" ry="1.3" fill="#ff9a1a"/></svg></span> Kimi <span class="hd-arrow">▾</span></div>
+        <ul class="navtree">
+          <li id="navNew"><span class="nav-ico">📄</span>新建任务</li>
+          <li class="deco"><span class="nav-ico">📅</span>已安排</li>
+          <li class="deco"><span class="nav-ico">🧩</span>插件</li>
+          <li class="deco"><span class="nav-ico">🌐</span>站点</li>
+          <li class="deco"><span class="nav-ico">🔀</span>拉取请求</li>
+          <li id="navChat"><span class="nav-ico">💬</span>聊天</li>
+        </ul>
+      </div>
+
+      <div class="panel">
+        <div class="panel-hd grp">置顶</div>
+        <ul class="chatlist" id="pinnedList"><li class="empty">（空）</li></ul>
+      </div>
+
+      <div class="panel grow">
+        <div class="panel-hd grp">项目</div>
+        <ul class="chatlist" id="chatList"><li class="empty">（空）</li></ul>
+      </div>
+
+      <div class="userbar">
+        <span class="avatar me">R</span>
+        <span class="uname">Randy Lu<br><em>✔ 在线 ▾</em></span>
+      </div>
+      <div class="searchbar"><input placeholder="搜索..."><span class="search-ico">🔍</span></div>
+    </aside>
+
+    <!-- 中栏 -->
+    <main class="center">
+      <div class="chat-hd"><span class="chat-hd-ico">📄</span> <span id="chatTitle">请选择或新建一个聊天</span></div>
+      <div class="messages" id="messages">
+        <div class="welcome">
+          <p>欢迎来到 <b>Kimi 2007</b>！</p>
+          <p>点左上角「新建任务」开始和 Kimi 小蓝聊天。</p>
+        </div>
+      </div>
+      <div class="inputbar">
+        <div class="slash-menu" id="slashMenu" hidden></div>
+        <div class="input-tools">
+          <span class="itool deco">😊 表情</span>
+          <span class="itool deco">🖼 图片</span>
+          <span class="itool deco">📎 附加 ▾</span>
+          <span class="itool deco right">⚡</span>
+        </div>
+        <textarea id="input" placeholder="先在左侧选择一个聊天，或点「新建任务」" disabled></textarea>
+        <div class="input-bottom">
+          <span class="mode-hint deco">🔤 😀 ▾</span>
+          <span class="typing" id="typing"></span>
+          <span class="cost deco">5.6 Sol ▾</span>
+          <button id="sendBtn" disabled>发送(S)</button>
+        </div>
+      </div>
+    </main>
+
+    <!-- 右栏 -->
+    <aside class="right">
+      <div class="panel">
+        <div class="panel-hd"><span class="hd-ico">⊗</span> Kimi 好友 <span class="hd-mini">✕ ▾</span></div>
+        <div class="mascot-stage">
+          <div class="robot">
+            <div class="robot-ear left"></div>
+            <div class="robot-ear right"></div>
+            <div class="robot-head"><div class="robot-face">&gt;_</div></div>
+            <div class="robot-body"></div>
+            <div class="robot-foot left"></div>
+            <div class="robot-foot right"></div>
+          </div>
+        </div>
+        <div class="mascot-name"><span class="online-dot"></span> Kimi 小蓝 <span class="lv">LV.07</span></div>
+        <div class="mascot-bubble">
+          代码有问题？找我！<br>
+          我是你的智能伙伴 Kimi<br>
+          陪你写代码，改 Bug，<br>
+          查文档，超可靠哒！
+        </div>
+        <div class="mascot-icons deco">▤ ⭐ ✉ ⚙ 📁</div>
+      </div>
+
+      <div class="panel grow">
+        <div class="panel-hd grp">我的好友 (2/8) <span class="hd-arrow">▾</span></div>
+        <div class="friend-card deco">
+          <div class="friend-avatar">👧</div>
+          <div class="friend-info">小助手<br><em>在线</em></div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-hd grp">换装秀 <span class="hd-arrow">▾</span></div>
+        <div class="qqshow-stage">
+          <button class="qq-arrow left" id="qqPrev" title="上一套">‹</button>
+          <div class="qqshow-avatar" id="qqAvatar"></div>
+          <button class="qq-arrow right" id="qqNext" title="下一套">›</button>
+        </div>
+        <div class="qqshow-name" id="qqName"></div>
+      </div>
+
+      <div class="searchbar"><input placeholder="查找好友..."><span class="search-ico">🔍</span></div>
+    </aside>
+  </div>
+
+  <!-- 状态栏 -->
+  <div class="statusbar">
+    <span class="deco">🛡 安全</span>
+    <span class="deco">📶</span>
+    <span id="clock">--:--</span>
+  </div>
+</div>
+
+<!-- 新建聊天对话框 -->
+<div class="dlg-mask" id="dlgMask" hidden>
+  <div class="dlg">
+    <div class="dlg-hd">新建任务 <span class="dlg-x" id="dlgClose">✕</span></div>
+    <div class="dlg-bd">
+      <label>聊天标题</label>
+      <input id="dlgTitle" placeholder="例如：优化 KV 读写成本">
+      <label>项目目录（cwd）</label>
+      <input id="dlgCwd" placeholder="留空则使用用户主目录">
+    </div>
+    <div class="dlg-ft">
+      <button id="dlgCancel">取消</button>
+      <button id="dlgOk" class="primary">确定</button>
+    </div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

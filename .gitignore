@@ -1,0 +1,17 @@
+# 运行时数据（聊天记录，含本机路径，禁止入库）
+data.json
+data.json.tmp
+
+# 构建产物
+*.exe
+sea-prep.blob
+sea-config.json
+
+# 测试/临时
+tmp-test/
+.edgetest/
+.edgeprof/
+shot-*.png
+
+# 依赖（本项目零依赖，防御性忽略）
+node_modules/
